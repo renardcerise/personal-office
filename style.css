@@ -1,0 +1,449 @@
+.fixed {
+    position: fixed;
+}
+
+.button_cab {
+    padding: 10px;
+    border: 1px solid #f79c9e;
+    color: #ed2429;
+    border-radius: 3px;
+}
+
+.button_cab:hover {
+    color: white;
+    background-color: #ed2429;
+
+}
+
+.button_cab img {
+    margin-right: 10px;
+}
+
+#main-content {
+    padding-top: 92px;
+}
+
+.cabinet_menu {
+    margin-top: 60px;
+    padding-left: 0;
+
+}
+
+.cabinet_menu_text {
+    color: #adadad;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: -15px;
+}
+
+.cabinet_menu li {
+    list-style-type: none;
+    margin-bottom: 5px;
+}
+
+
+.cabinet_menu a {
+    display: block;
+    text-decoration: none;
+    color: black;
+}
+
+.cabinet_menu a:hover {
+    color: #ed2429;
+}
+
+.exit {
+    position: fixed;
+    bottom: 60px;
+
+}
+
+.exit a {
+    color: #ed2429;
+}
+
+hr {
+    margin-top: 30px;
+    width: 1px;
+    height: 75%;
+    background-color: #adadad;
+    position: fixed;
+    margin-left: 200px;
+}
+
+.polz hr {
+    margin-left: 0;
+    height: 55%;
+}
+.margin_fixed {
+    margin-left: 250px;
+}
+
+.profile_block {
+    color: #adadad;
+    float: left;
+    margin-right: 40px;
+}
+
+.profile_block span {
+    font-size: 16px;
+    color: black;
+    margin-left: 5px;
+
+}
+
+.first_row {
+    margin-top: 60px;
+}
+
+.second_row
+{
+    float: left;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.third_row {
+    float: left;
+    margin-bottom: 5px;
+}
+.third_row:last-child {
+    margin-bottom: 20px;
+}
+
+.form_text {
+    text-align: left;
+    color: #adadad;
+}
+.zayavki_text{
+    color: #adadad;
+    margin-top: 30px;
+    font-size: 18px;
+
+}
+.polz_text {
+    color: #adadad;
+    font-size: 18px;
+}
+.personal_info {
+    margin-top: 100px;
+}
+
+.personal_info_block {
+    margin-top: 15px;
+}
+
+.password {
+    margin-top: 40px;
+}
+
+input, select {
+    width: 80%;
+    border: 1px solid #f69194;
+    border-radius: 3px;
+    height: 30px;
+    padding-left: 10px;
+
+}
+
+input:focus,
+input:hover,
+select:focus,
+select:hover {
+    border: 1px solid #ed2429;
+    outline: 0;
+
+}
+
+option:focus {
+    color: white;
+    background-color: #ed2429;
+}
+.right {
+    text-align: right;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    background: #ed2429;
+    height: 30px;
+    color: white;
+    text-transform: uppercase;
+    border-radius: 3px;
+    padding-left: 9px;
+    padding-right: 9px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+
+}
+.delete {
+    background: none;
+}
+
+button:hover {
+    background: #a30200;
+    transition: 0.5s;
+}
+
+
+.main_text {
+    margin-top: 60px;
+    font-size: 20px;
+}
+
+.main_text span {
+    color: #ed2429;
+}
+
+.car_block {
+    width: 100%;
+    height: 200px;
+    border: 1px solid #f69194;
+    border-radius: 3px;
+    margin-top: 30px;
+}
+.place {
+    margin-top: 20px;
+    height: 150px;
+}
+.zayavka {
+    margin-top: 0;
+    margin-bottom: 20px;
+    height: 310px;
+}
+.sotr {
+    margin-top: 20px;
+    height: 100px;
+}
+.arendator {
+    width: 90%;
+    height: 170px;
+
+}
+.row_name_main {
+    color: #adadad;
+    font-size: 13px;
+    padding-left: 20px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.place_name {
+    margin-bottom: 0;
+    padding-left: 33px;
+}
+.zayavka_name {
+    color:  black;
+    font-size: 15px;
+    margin-bottom: 15px;
+}
+
+.row_name {
+    color: #adadad;
+    font-size: 13px;
+    padding-right: 0;
+    padding-left: 35px;
+    line-height: 1.5;
+}
+
+.row_value {
+    font-size: 14px;
+    color: black;
+    padding-left: 0;
+    line-height: 1;
+}
+.row_value_zayavka {
+    font-size: 14px;
+    color: black;
+    padding-left: 0;
+    line-height: 1.5;
+}
+
+.row_value_sotrudnik {
+    font-size: 16px;
+    color: black;
+    line-height: 1;
+}
+
+.car_row {
+    margin-top: 10px;
+}
+.car_row:last-child {
+    margin-bottom: 10px;
+}
+.place_row {
+    margin-top: 5px;
+}
+
+.delete_button {
+    text-align: right;
+    margin-right: 20px;
+    margin-top: 5px;
+}
+
+.car_block_add {
+    width: 100%;
+    height: 235px;
+    border: 1px solid #f69194;
+    border-radius: 3px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.place_add {
+    margin-top: 20px;
+}
+.row_name_add {
+    color: #adadad;
+    font-size: 13px;
+    padding-right: 0;
+    padding-left: 35px;
+    line-height: 2;
+}
+
+
+.row_value_add {
+    font-size: 16px;
+    color: black;
+    padding-left: 0;
+    line-height: 1;
+}
+.row_value_add_place {
+
+}
+
+.row_value_add input,
+.row_value_add select{
+    width: 92%;
+}
+.row_value_add_place input,
+.row_value_add_place select  {
+    width: 60%;
+}
+.top_menu_uslugi {
+    margin-top: 60px;
+}
+.save_place {
+    font-size: 15px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.menu_uslugi li {
+    margin-right: 20px;
+}
+
+.top_menu_uslugi ul li:hover {
+    cursor: pointer;
+}
+
+.uslugi_row {
+    margin-top: 10px;
+}
+
+textarea {
+    width: 100%;
+    border: 1px solid #f69194;
+    border-radius: 3px;
+    height: 112px;
+    resize: none;
+    background-color: white;
+    border: 1px solid #f69194;
+    padding: 10px;
+}
+
+textarea:focus,
+textarea:hover {
+    border: 1px solid #ed2429;
+
+
+}
+
+::-webkit-input-placeholder {
+    color: #adadad;
+    font-size: 11px;
+}
+
+::-moz-placeholder {
+    color: #adadad;
+    font-size: 11px;
+}
+
+/* Firefox 19+ */
+:-moz-placeholder {
+    color: #adadad;
+    font-size: 11px;
+}
+
+/* Firefox 18- */
+:-ms-input-placeholder {
+    color: #adadad;
+    font-size: 11px;
+}
+
+.zayavka_button {
+    text-align: right;
+}
+
+.usluga {
+    margin-top: 30px;
+}
+
+.active_li {
+    /*border: 1px solid #ed2429;*/
+    color: white;
+    background-color: #ed2429;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+input.mini_date {
+    margin-bottom: 6px;
+    width: 78%;
+    margin-left: 25px;
+}
+
+input.mini_date:last-child {
+    margin-left: 17px;
+}
+
+.stroitelstvo {
+    margin-top: 40px;
+}
+
+.error {
+    color: #ed2429;
+}
+
+.propusk_block {
+    margin-top: 20px;
+    background-color: #fafafa;
+
+}
+.propusk_block:hover {
+    cursor: pointer;
+    background-color: #f2f3f4;
+
+}
+.name_arend {
+    font-size: 18px;
+    line-height: 2.6;
+   vertical-align: middle;
+
+
+}
+.open_spoiler {
+
+}
+
+
+@media screen and (max-width: 768px) {
+    #main-content {
+        padding-top: 0;
+        margin-top: -10px;
+    }
+
+    .bg-2 {
+        height: 100%;
+    }
+}
