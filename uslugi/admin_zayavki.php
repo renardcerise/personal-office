@@ -72,7 +72,7 @@ if (!isset($_SESSION['login'])) {
                     <li><a href="../profile/admin_polzovateli.php">Пользователи</a></li>
                     <div class="cabinet_menu_text">Заявки</div>
                     <li><a href="../car/admin_propuski_car.php">Пропуски на машину</a></li>
-<!--                    <li><a href="../bron/admin_zagruzka.php">Резерв под загрузку</a></li>-->
+                    <li><a href="../bron/admin_zagruzka.php">Резерв под загрузку</a></li>
                     <li><a href="admin_zayavki.php">Заявки на услуги</a></li>
                     <li><a href="../personal/admin_propusk_personal.php">Пропуски на персонал</a></li>
                     <li class="exit"><a href="../exit.php">Выход</a></li>
@@ -97,16 +97,10 @@ if (!isset($_SESSION['login'])) {
                 $all_zayavki = mysqli_query($connect, 'SELECT * FROM all_zayavki');
 
 
-                if ($result = mysqli_query($connect, "SELECT * from all_zayavki where naimen_usl=\"stroitelstvo\"")) {
-
-                    $row_cnt = mysqli_num_rows($result);
-                    printf("В выборке %d рядов.\n", $row_cnt);
-
-
-                }
-
                 $stroit = mysqli_fetch_array(mysqli_query($connect, 'SELECT COUNT(*) as ch from all_zayavki where naimen_usl="stroitelstvo"'));
+                echo "111";
                 echo $stroit['ch'];
+                echo "333";
 
 
                 echo '<script>    var popCanvas = $("#popChart");
@@ -116,7 +110,7 @@ if (!isset($_SESSION['login'])) {
             labels: ["Разгрузочно-погрузочные", "Вызов сотрудника", "Строительно-монтажные работы", "Транспорт"],
             datasets: [{
                 label: \'Количество заявок\',
-                data: [3, 4, 3, 1],
+                data: ['.$stroit['ch'].', 4, 3, 1],
                 backgroundColor: [
                     \'rgba(255, 99, 132, 0.6)\',
                     \'rgba(54, 162, 235, 0.6)\',

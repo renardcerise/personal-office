@@ -3,6 +3,8 @@ session_start();
 if (!isset($_SESSION['login'])) {
     header('Location: ../auth/auth.php'); //Если не авторизированы
 }
+
+
 ?>
 
 <html>
@@ -87,17 +89,67 @@ if (!isset($_SESSION['login'])) {
                 <div class="main_text"><span>Б</span>ронирование</div>
                 <div class="row">
                     <?php
+                    $connect = mysqli_connect('localhost', 'db', '12019991', 'cabinet') or die('<span class="text_text">Ошибка подключения к базе</span>'); //Подключение к базе данных
+                    $all_lift = mysqli_query($connect, 'SELECT nomer, ID_nomer_obor FROM nomer_obor WHERE ID_tip_razgruzki=1');
+
                     echo '<div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 ">';
                         echo '<div class="personal_info" style="margin-top: 40px">';
-                            echo '<form action="zagruzka_func.php" method="post">';
                                 echo '<div class="polz_text">Лифты</div>';
-                                echo '<br>';
-                                echo '<textarea name="message" placeholder="Введите дату и время"></textarea>';
-                                echo '<div class="zayavka_button">
-                            <button type="submit" class="button" name="lift">Отправить заявку</button>
+                     echo '<br>';
+
+
+                    echo '<form action="zagruzka_func.php" method="post">';
+                    echo 'Выберите номер лифта: <select name="nomer_obor" class="nomer_obor" onchange="submit();" required>';
+
+                    while ($row = mysqli_fetch_assoc($all_lift)) {
+                        if($row['ID_nomer_obor'] != $_COOKIE['nomer_lift']) {
+
+                            echo '<option>'.$row['nomer'].'</option>';
+                        } else {
+                            echo '<option selected>'.$row['nomer'].'</option>';
+                        }
+
+                    }
+
+                    echo '</select>';
+
+                    echo '<input type="date" value="'.$_COOKIE["date_lift"].'" class="date_today date_obor" name="select_date_lift" id="date_bron" onchange="submit();" required/>';
+                    echo '<br>';
+                    $time = mysqli_query($connect, 'SELECT ID_razgruzka, vremya_nachala, ID_user FROM razgruzka WHERE data = "'.$_COOKIE["date_lift"].'" and ID_nomer_obor="'.$_COOKIE["nomer_lift"].'"');
+
+                    while ($row = mysqli_fetch_array($time)){
+                        if ($row['ID_user'] === NULL) {
+                            echo '<input id="'.$row['vremya_nachala'].'" class="radio-inline__input" type="radio" name="accessible-radio" value="'.$row['ID_razgruzka'].'" checked="checked"/>';
+                            echo '<label class="radio-inline__label" for="'.$row['vremya_nachala'].'">'.date('H:i', strtotime($row['vremya_nachala'])).'</label>';
+                        } else {
+                            echo '<input id="'.$row['vremya_nachala'].'" class="radio-inline__input" type="radio" name="accessible-radio" value="'.$row['ID_razgruzka'].'" disabled/>';
+                        echo '<label class="radio-inline__label_dis" for="'.$row['vremya_nachala'].'">'.date('H:i', strtotime($row['vremya_nachala'])).'</label>';
+                        }
+
+                    }
+
+                    echo '<div class="zayavka_button">
+                            <button type="submit" class="button" name="lift">Забронировать</button>
                         </div>';
 
                                 echo '</form>';
+
+                    echo '<div class="polz_text">Ваши брони:</div>';
+
+                    $ID_user = mysqli_fetch_array(mysqli_query($connect, 'SELECT ID_user FROM user WHERE nomer_dogovora = "' . $_SESSION['login'] . '"'));
+                    $broni_lift = mysqli_query($connect, 'SELECT ID_razgruzka, data, vremya_nachala, nomer FROM razgruzka, nomer_obor WHERE razgruzka.ID_nomer_obor=nomer_obor.ID_nomer_obor and ID_tip_razgruzki	= 1 and  ID_user="'.$ID_user['ID_user'].'" and data >= "'.date('Y-m-d').'" ORDER BY data, vremya_nachala');
+
+                    while ($row=mysqli_fetch_array($broni_lift)){
+                        echo '<div class="row bron">';
+                        echo '<div class="col-lg-10 col-md-7 col-sm-7 col-xs-7 row_name_main bron_info">'. date('d.m.Y', strtotime(str_replace('-', '/', $row['data']))) .' в '.date('H:i', strtotime($row['vremya_nachala'])).' лифт №'. $row['nomer'] .'</div>';
+                        echo '<div class="col-lg-2 col-md-5 col-sm-5 col-xs-5 right">';
+                        echo '<form method="post" action="zagruzka_func.php" style="margin-bottom: 0;"><button class="delete" style="margin-top: 8px; margin-right: 10px; margin-bottom: 0; padding: 0;" name="delete_bron" value="' . $row['ID_razgruzka'] . '"><img src="../img/icons8-delete.png" /></button></form>';
+                        echo '</div>';
+                        echo '</div>';
+
+                    }
+
+
                                 echo '</div>';
                                 echo '</div>';
 
@@ -106,19 +158,75 @@ if (!isset($_SESSION['login'])) {
                 </div>';
                     echo '<div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 ">';
                     echo '<div class="personal_info" style="margin-top: 40px">';
-                    echo '<form action="zagruzka_func.php" method="post">';
                     echo '<div class="polz_text">Ворота</div>';
                     echo '<br>';
-                    echo '<textarea name="message" placeholder="Введите дату и время"></textarea>';
+
+
+                    echo '<form action="zagruzka_func.php" method="post">';
+                    echo 'Выберите номер ворот: <select name="nomer_obor" class="nomer_obor" onchange="submit();" required>';
+
+                    $all_vorota = mysqli_query($connect, 'SELECT nomer, ID_nomer_obor FROM nomer_obor WHERE ID_tip_razgruzki=2');
+
+                    while ($row = mysqli_fetch_assoc($all_vorota)) {
+                        if($row['ID_nomer_obor'] != $_COOKIE['nomer_vorot']) {
+
+                            echo '<option>'.$row['nomer'].'</option>';
+                        } else {
+                            echo '<option selected>'.$row['nomer'].'</option>';
+                        }
+
+                    }
+
+                    echo '</select>';
+
+                    echo '<input type="date" value="'.$_COOKIE["date_vorota"].'" class="date_today date_obor" name="select_date_vorota" id="date_bron" onchange="submit();" required/>';
+                    echo '<br>';
+                    $time_vor = mysqli_query($connect, 'SELECT ID_razgruzka, vremya_nachala, ID_user FROM razgruzka WHERE data = "'.$_COOKIE["date_vorota"].'" and ID_nomer_obor="'.$_COOKIE["nomer_vorot"].'"');
+
+                    while ($row = mysqli_fetch_array($time_vor)){
+                        if ($row['ID_user'] === NULL) {
+                            echo '<input id="'.$row['ID_razgruzka'].'" class="radio-inline__input" type="radio" name="accessible-radio_vor" value="'.$row['ID_razgruzka'].'" checked="checked"/>';
+                            echo '<label class="radio-inline__label" for="'.$row['ID_razgruzka'].'">'.date('H:i', strtotime($row['vremya_nachala'])).'</label>';
+                        } else {
+                            echo '<input id="'.$row['ID_razgruzka'].'" class="radio-inline__input" type="radio" name="accessible-radio_vor" value="'.$row['ID_razgruzka'].'" disabled/>';
+                            echo '<label class="radio-inline__label_dis" for="'.$row['ID_razgruzka'].'">'.date('H:i', strtotime($row['vremya_nachala'])).'</label>';
+                        }
+
+                    }
+
                     echo '<div class="zayavka_button">
-                            <button type="submit" class="button" name="vorota">Отправить заявку</button>
+                            <button type="submit" class="button" name="vorota">Забронировать</button>
                         </div>';
+
                     echo '</form>';
+
+                    echo '<div class="polz_text">Ваши брони:</div>';
+
+                    $ID_user = mysqli_fetch_array(mysqli_query($connect, 'SELECT ID_user FROM user WHERE nomer_dogovora = "' . $_SESSION['login'] . '"'));
+                    $broni_vorot = mysqli_query($connect, 'SELECT ID_razgruzka, data, vremya_nachala, nomer FROM razgruzka, nomer_obor WHERE razgruzka.ID_nomer_obor=nomer_obor.ID_nomer_obor and ID_tip_razgruzki	= 2 and  ID_user="'.$ID_user['ID_user'].'" and data >= "'.date('Y-m-d').'" ORDER BY data, vremya_nachala');
+
+                    while ($row=mysqli_fetch_array($broni_vorot)){
+                        echo '<div class="row bron">';
+                        echo '<div class="col-lg-10 col-md-7 col-sm-7 col-xs-7 row_name_main bron_info">'. date('d.m.Y', strtotime(str_replace('-', '/', $row['data']))) .' в '.date('H:i', strtotime($row['vremya_nachala'])).' ворота №'. $row['nomer'] .'</div>';
+                        echo '<div class="col-lg-2 col-md-5 col-sm-5 col-xs-5 right">';
+                        echo '<form method="post" action="zagruzka_func.php" style="margin-bottom: 0;"><button class="delete" style="margin-top: 8px; margin-right: 10px; margin-bottom: 0; padding: 0;" name="delete_bron" value="' . $row['ID_razgruzka'] . '"><img src="../img/icons8-delete.png" /></button></form>';
+                        echo '</div>';
+                        echo '</div>';
+
+                    }
+
+
                     echo '</div>';
                     echo '</div>';
+                    echo '</div>';
+                    echo '</div>';
+
+
+
 
 
                      ?>
+
 
 
 

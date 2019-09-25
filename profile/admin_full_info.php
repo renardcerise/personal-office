@@ -72,7 +72,7 @@ if (!isset($_SESSION['login'])) {
                     <li><a href="admin_polzovateli.php">Пользователи</a></li>
                     <div class="cabinet_menu_text">Заявки</div>
                     <li><a href="../car/admin_propuski_car.php">Пропуски на машину</a></li>
-<!--                    <li><a href="../bron/admin_zagruzka.php">Резерв под загрузку</a></li>-->
+                    <li><a href="../bron/admin_zagruzka.php">Резерв под загрузку</a></li>
                     <li><a href="../uslugi/admin_zayavki.php">Заявки на услуги</a></li>
                     <li><a href="../personal/admin_propusk_personal.php">Пропуски на персонал</a></li>
                     <li class="exit"><a href="../exit.php">Выход</a></li>
@@ -86,23 +86,38 @@ if (!isset($_SESSION['login'])) {
                 <?php
 
                 session_start();
+                if (isset($_POST['edit_arend']) ) {
+                    unset($_COOKIE['error']);
+                }
+
+                if (isset($_POST['new_arend']) ) {
+                    unset($_COOKIE['id_user']);
+                }
+
                 $connect = mysqli_connect('localhost', 'db', '12019991', 'cabinet') or die('<span class="text_text">Ошибка подключения к базе</span>'); //Подключение к базе данных
 
-                $personal_data = mysqli_fetch_array(mysqli_query($connect, 'SELECT user.ID_type_arendatora, ID_user, nomer_dogovora, familiya, imya, otchestvo, password, nazvanie_organizacii, telephone, rezerv_telephone, email, data_podpicaniya_dogovora, naimenovanie FROM user, type_arendatora WHERE user.ID_type_arendatora = type_arendatora.ID_type_arendatora and ID_user = "' . $_POST['edit_arend'] . '"'));
+                $personal_data = mysqli_fetch_array(mysqli_query($connect, 'SELECT user.ID_type_arendatora, ID_user, nomer_dogovora, familiya, imya, otchestvo, password, nazvanie_organizacii, telephone, rezerv_telephone, email, data_podpicaniya_dogovora, naimenovanie FROM user, type_arendatora WHERE user.ID_type_arendatora = type_arendatora.ID_type_arendatora and (ID_user = "' . $_POST['edit_arend'] . '" OR ID_user="'.$_COOKIE['id_user'].'") ORDER BY ID_user'));
+
 
                 $type_arendatora = mysqli_query($connect, 'SELECT naimenovanie  FROM type_arendatora'); //Выбор наименований всех типов арендаторов
                 $type_placement  = mysqli_query($connect, 'SELECT naimenovanie  FROM type_placement'); //Выбор наименований всех типов помещений
 
-                if (isset($_POST['edit_arend']) ) {
+                if (isset($_POST['edit_arend']) or isset($_COOKIE['id_user'])) {
                     echo '<div class="row ">';
                     echo '<div class="col-lg-6 col-md-5 col-sm-5 col-xs-5 main_text"><span>И</span>зменение пользователя</div>';
                     echo '<div class="col-lg-6 col-md-5 col-sm-5 col-xs-5 right" style="margin-top: 40px;"><form action="admin_func.php" method="post"><input type="hidden"  name="id_user"  value="' . $personal_data['ID_user'] . '" /><button name="delete_arend" class="button" type="submit">Удалить пользователя</button></form> </div>';
                     echo '</div>';
+
+                    unset($_COOKIE['error']);
                 }
 
-                if (isset($_POST['new_arend']) ) {
+                if (isset($_POST['new_arend']) or isset($_COOKIE['error'])) {
                     echo '<div class="main_text"><span>Д</span>обавление пользователя</div>';
-                    echo '<div class="error"><?php echo $errortext?></div>';
+                    echo '<div class="error">';
+                    echo $errortext;
+                    echo '</div>';
+
+
                 }
 
                 echo '<div class="row">';
@@ -113,19 +128,6 @@ if (!isset($_SESSION['login'])) {
                 echo '<br>';
 
 
-                echo '<div class="row personal_info_block">';
-                echo '<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                        <div class="form_text">Номер договора:</div>
-                                    </div>';
-                echo '<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7"><input type="text" class="dogovor" name="nomer_dogovora" value="' . $personal_data['nomer_dogovora'] . '" required /></div>';
-                echo '</div>';
-                echo '<div class="row personal_info_block">';
-                echo '<div class="col-lg-5 col-md-4 col-sm-4 col-xs-4">
-                                        <div class="form_text">Дата подписания:</div>
-                                    </div>';
-                echo '<div class="col-lg-7 col-md-6 col-sm-6 col-xs-6"><input type="date" name="data_podpicaniya_dogovora" value="' . $personal_data['data_podpicaniya_dogovora'] . '" required /></div>';
-                echo '</div>';
-                echo '<br>';
 
                 echo '<div class="row personal_info_block">';
                 echo '<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
@@ -141,7 +143,7 @@ if (!isset($_SESSION['login'])) {
                 echo '</div>';
                 echo '<br>';
 
-                if (isset($_POST['new_arend'])) {
+                if (isset($_POST['new_arend']) or isset($_COOKIE['error'])) {
                     echo '<div class="row personal_info_block">';
                     echo '<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                         <div class="form_text">Тип:</div>
@@ -156,7 +158,7 @@ if (!isset($_SESSION['login'])) {
                     echo '</div>';
                     echo '</div>';
 
-                    echo '<div class="row personal_info_block" id="ooo">';
+                    echo '<div class="row personal_info_block new_arend_ooo" id="ooo" >';
                     echo '<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                         <div class="form_text">Название организации:</div>
                                     </div>';
@@ -183,20 +185,15 @@ if (!isset($_SESSION['login'])) {
                     echo '</div>';
                 }
 
-                if (isset($_POST['edit_arend'])) {
+                if (isset($_POST['edit_arend']) or isset($_COOKIE['id_user'])) {
                     echo '<div class="row personal_info_block">';
                     echo '<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                         <div class="form_text">Тип:</div>
                                     </div>';
                     echo '<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">';
-                    echo '<select name="type_arendatora" id="select_type" required>';
+                    echo '<select name="type_arendatora" id="select_type" disabled>';
                     echo '<option selected>' . $personal_data['naimenovanie'] . '</option>';
 
-/*                    while ($row = mysqli_fetch_assoc($type_arendatora)) {
-                        if ($personal_data['naimenovanie'] != $row['naimenovanie']) {
-                            echo '<option>' . $row['naimenovanie'] . '</option>';
-                        }
-                    }*/
 
                     echo '</select>';
                     echo '</div>';
@@ -260,7 +257,7 @@ if (!isset($_SESSION['login'])) {
                 echo '</div> ';
                 echo '<br>';
 
-                if (isset($_POST['edit_arend'])) //если редактируем пользователя
+                if (isset($_POST['edit_arend']) or isset($_COOKIE['id_user'])) //если редактируем пользователя
                 {
                     echo '<div class="row ">';
                     echo '<div class="col-lg-6 col-md-5 col-sm-5 col-xs-5"><input type="hidden"  name="id_user"  value="' . $personal_data['ID_user'] . '" /><button class="button" name="save_arend" type="submit">Сохранить изменения</button></div>';
@@ -270,9 +267,9 @@ if (!isset($_SESSION['login'])) {
                     echo '</div>';
                 }
 
-                if (isset($_POST['new_arend']) ) //если новый пользователь
+                if (isset($_POST['new_arend']) or isset($_COOKIE['error'])) //если новый пользователь
                 {
-                    echo '<div class="row ">';
+                    echo '<div class="row">';
                     echo '<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="margin-right: 10px;"><button class="button" name="add_polz" type="submit">Добавить пользователя</button></div>';
                     echo '<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5"></div>';
                     echo '</div>';
@@ -285,12 +282,12 @@ if (!isset($_SESSION['login'])) {
                     <hr>
                 </div>';
 
-                if (isset($_POST['edit_arend'])) {
+                if (isset($_POST['edit_arend']) or isset($_COOKIE['id_user'])) {
                     echo '<div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 ">';
                     echo '<div class="zayavki_text">Помещения</div>';
                     echo '<br>';
 
-                    $placement = mysqli_query($connect, 'SELECT number, ploschad, naimenovanie, placement.ID_placement from placement, type_placement where placement.ID_type_placement = type_placement.ID_type_placement and ID_user="' . $personal_data['ID_user'] . '"  GROUP BY ID_placement');
+                    $placement = mysqli_query($connect, 'SELECT number, ploschad, naimenovanie, placement.ID_placement from placement, type_placement where placement.ID_type_placement = type_placement.ID_type_placement and (ID_user="' . $personal_data['ID_user'] . '" OR ID_user="'.$_COOKIE['id_user'].'")  GROUP BY ID_placement');
                     $i = 1;
 
                     while ($row = mysqli_fetch_assoc($placement)) {
@@ -298,7 +295,7 @@ if (!isset($_SESSION['login'])) {
                         echo '<div class="row">';
                         echo '<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 row_name_main place_name">Помещение №' . $i . '</div>';
                         echo '<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 right">';
-                        echo '<form method="post" action="admin_func.php"><button class="delete" style="margin-top: 10px; margin-right: 10px; margin-bottom: 0;" name="delete_place" value="' . $row['ID_placement'] . '"><img src="../img/icons8-delete.png" /></button></form>';
+                        echo '<form method="post" action="admin_func.php"><input type="hidden" name="id_user" value="' . $personal_data['ID_user'] . '" /><button class="delete" style="margin-top: 10px; margin-right: 10px; margin-bottom: 0;" name="delete_place" value="' . $row['ID_placement'] . '"><img src="../img/icons8-delete.png" /></button></form>';
                         echo '</div>';
                         echo '</div>';
                         echo '<div class="row car_row place_row">';

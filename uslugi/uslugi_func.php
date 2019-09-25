@@ -29,7 +29,7 @@ if (isset($_POST['zayavka_razgr_pogr'])) {
     $mailText = "Заявка на услугу
     
 Номер д/а: $dogovor
-Заявитель: $tip $familiya $imya $otchestvo
+Заявитель: $tip $organizaciya$familiya $imya $otchestvo 
 Контактный тел.: $phone
 Дополнительный тел.: $rezervphone
 
@@ -53,7 +53,7 @@ if (isset($_POST['zayavka_personal'])) {
     $mailText = "Заявка на услугу
     
 Номер д/а: $dogovor
-Заявитель: $tip $familiya $imya $otchestvo
+Заявитель: $tip $organizaciya$familiya $imya $otchestvo 
 Контактный тел.: $phone
 Дополнительный тел.: $rezervphone
 
@@ -79,7 +79,7 @@ if (isset($_POST['zayavka_transport'])) {
     $mailText = "Заявка на услугу
     
 Номер д/а: $dogovor
-Заявитель: $tip $familiya $imya $otchestvo
+Заявитель: $tip $organizaciya$familiya $imya $otchestvo 
 Контактный тел.: $phone
 Дополнительный тел.: $rezervphone
 
@@ -102,7 +102,7 @@ if (isset($_POST['zayavka_stroitelstvo'])) {
     $mailText = "Заявка на услугу
     
 Номер д/а: $dogovor
-Заявитель: $tip $familiya $imya $otchestvo
+Заявитель: $tip $organizaciya$familiya $imya $otchestvo 
 Контактный тел.: $phone
 Дополнительный тел.: $rezervphone
 
@@ -119,7 +119,7 @@ if (isset($_POST['lift'])) {
     $mailText = "Заявка на бронь лифта
     
 Номер д/а: $dogovor
-Заявитель: $tip $familiya $imya $otchestvo
+Заявитель: $tip $organizaciya$familiya $imya $otchestvo 
 Контактный тел.: $phone
 Дополнительный тел.: $rezervphone
 
@@ -134,7 +134,7 @@ if (isset($_POST['Ворота'])) {
     $mailText = "Заявка на услугу
     
 Номер д/а: $dogovor
-Заявитель: $tip $familiya $imya $otchestvo
+Заявитель: $tip $organizaciya$familiya $imya $otchestvo 
 Контактный тел.: $phone
 Дополнительный тел.: $rezervphone
 

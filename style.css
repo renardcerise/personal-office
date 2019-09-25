@@ -144,7 +144,17 @@ input, select {
     padding-left: 10px;
 
 }
+.nomer_obor {
+    width: 15%;
+    margin-left: 10px;
 
+}
+
+.date_obor {
+    width: 66%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 input:focus,
 input:hover,
 select:focus,
@@ -178,6 +188,12 @@ button {
 }
 .delete {
     background: none;
+
+}
+
+.delete:hover {
+    background: #ed2429;
+
 }
 
 button:hover {
@@ -229,9 +245,24 @@ button:hover {
 }
 
 .place_name {
+     margin-bottom: 0;
+     padding-left: 33px;
+ }
+.obor_name {
     margin-bottom: 0;
-    padding-left: 33px;
+    padding-left: 0;
 }
+.bron {
+
+}
+.bron:hover {
+    background-color: #f2f3f4;
+}
+.bron_info {
+    color: black;
+    margin-bottom: 10px;
+}
+
 .zayavka_name {
     color:  black;
     font-size: 15px;
@@ -328,12 +359,21 @@ button:hover {
     margin-bottom: 10px;
     margin-top: 10px;
 }
+.menu_bron li:hover{
+    cursor: pointer;
+}
+.menu_bron li{
+    margin-right: 20px;
 
+}
 .menu_uslugi li {
     margin-right: 20px;
 }
 
 .top_menu_uslugi ul li:hover {
+    cursor: pointer;
+}
+.top_menu_bron ul li:hover {
     cursor: pointer;
 }
 
@@ -435,6 +475,47 @@ input.mini_date:last-child {
 .open_spoiler {
 
 }
+
+
+.radio-inline__input {
+    clip: rect(1px, 1px, 1px, 1px);
+    width: 80px;
+
+    position: absolute !important;
+}
+
+
+.radio-inline__label {
+    display: inline-block;
+    padding: 0.5rem 1.8rem;
+    margin-right: 25px;
+    border-radius: 3px;
+    transition: all .2s;
+    border: 1px solid #f69194;
+    width: 70px;
+}
+
+.radio-inline__label_dis {
+    display: inline-block;
+    padding: 0.5rem 1.8rem;
+    width: 70px;
+    margin-right: 25px;
+    border-radius: 3px;
+    transition: all .2s;
+    background-color: #f2f3f4;
+    border: 1px solid #adadad;
+}
+.radio-inline__input:checked + .radio-inline__label {
+    background: #ed2429;
+    color: #fff;
+    text-shadow: 0 0 1px rgba(0,0,0,.7);
+}
+.radio-inline__label:hover {
+    cursor: pointer;
+    border-color: #ed2429;
+    background: #f2f3f4;
+}
+
 
 
 @media screen and (max-width: 768px) {

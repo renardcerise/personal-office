@@ -71,7 +71,7 @@ if (!isset($_SESSION['login'])) {
                     <li><a href="admin_polzovateli.php">Пользователи</a></li>
                     <div class="cabinet_menu_text">Заявки</div>
                     <li><a href="../car/admin_propuski_car.php">Пропуски на машину</a></li>
-<!--                    <li><a href="../bron/admin_zagruzka.php">Резерв под загрузку</a></li>-->
+                    <li><a href="../bron/admin_zagruzka.php">Резерв под загрузку</a></li>
                     <li><a href="../uslugi/admin_zayavki.php">Заявки на услуги</a></li>
                     <li><a href="../personal/admin_propusk_personal.php">Пропуски на персонал</a></li>
                     <li class="exit"><a href="../exit.php">Выход</a></li>

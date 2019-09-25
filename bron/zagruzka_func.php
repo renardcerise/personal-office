@@ -2,54 +2,71 @@
 session_start();
 
 $connect = mysqli_connect('localhost', 'db', '12019991', 'cabinet') or die('<span class="text_text">Ошибка подключения к базе</span>'); //Подключение к базе данных
+$ID_user = mysqli_fetch_array(mysqli_query($connect, 'SELECT ID_user FROM user WHERE nomer_dogovora = "' . $_SESSION['login'] . '"'));
 
-$arendatorinfo = mysqli_fetch_array(mysqli_query($connect, 'SELECT  familiya, imya, otchestvo, nazvanie_organizacii, telephone, rezerv_telephone, email FROM user WHERE nomer_dogovora = "' . $_SESSION['login'] . '"'));
-$tipcheck      = mysqli_fetch_array(mysqli_query($connect, 'SELECT type_arendatora.naimenovanie FROM user, type_arendatora WHERE nomer_dogovora = "' . $_SESSION['login'] . '" and type_arendatora.ID_type_arendatora=user.ID_type_arendatora '));
-$ID_user       = mysqli_fetch_array(mysqli_query($connect, 'SELECT ID_user from user where  nomer_dogovora = "' . $_SESSION['login'] . '"'));
+if (isset($_POST['select_date_lift'])) {
 
-$to      = "nasya008@yandex.ru";
-$subject = "Заявка от " . date('j.m.Y') . " в " . date('H:i');
-$headers = "From: ПСК Технология";
+    $ID_nomer_obor = mysqli_fetch_array(mysqli_query($connect, 'SELECT ID_nomer_obor FROM nomer_obor WHERE nomer="'.$_POST['nomer_obor'].'" AND ID_tip_razgruzki=1'));
 
-$dogovor      = $_SESSION['login'];
-$tip          = $tipcheck['naimenovanie'];
-$familiya     = $arendatorinfo['familiya'];
-$imya         = $arendatorinfo['imya'];
-$otchestvo    = $arendatorinfo['otchestvo'];
-$organizaciya = $arendatorinfo['nazvanie_organizacii'];
-$phone        = $arendatorinfo['telephone'];
-$rezervphone  = $arendatorinfo['rezerv_telephone'];
+    setcookie("date_lift",$_POST['select_date_lift']);
+    setcookie("nomer_lift", $ID_nomer_obor['ID_nomer_obor']);
 
+    if( $_POST['select_date_lift'] != NULL) {
+        $issetdate = mysqli_fetch_array(mysqli_query($connect, 'SELECT ID_razgruzka FROM razgruzka WHERE data="' . $_POST['select_date_lift'] . '" AND ID_nomer_obor= "' . $ID_nomer_obor['ID_nomer_obor'] . '"'));
+        if ($issetdate['ID_razgruzka'] === NULL) {
+            $i = 1;
+            $time = date('H:i:s', strtotime('9:00:00'));
+            while ($i < 10) {
+                mysqli_query($connect, 'INSERT INTO `razgruzka` (`data`, `vremya_nachala`, `ID_nomer_obor`) VALUES ( "' . $_POST['select_date_lift'] . '", "' . $time . '", "' . $ID_nomer_obor['ID_nomer_obor'] . '");');
+                $time = date('H:i:s', strtotime("+1 hour", strtotime($time)));
+
+
+                $i++;
+            }
+        }
+    }
+}
 
 if (isset($_POST['lift'])) {
+    mysqli_query($connect, 'UPDATE razgruzka SET ID_user="'.$ID_user['ID_user'].'" WHERE ID_razgruzka = "'.$_POST['accessible-radio'].'";');
 
-    $message = $_POST['message'];
-    $mailText = "Заявка на бронь лифта
-    
-Номер д/а: $dogovor
-Заявитель: $tip $familiya $imya $otchestvo
-Контактный тел.: $phone
-Дополнительный тел.: $rezervphone
+}
 
-Услуга: Бронь лифта
-Комментарий: $message";
+if (isset($_POST['select_date_vorota'])) {
 
+    $ID_nomer_vor = mysqli_fetch_array(mysqli_query($connect, 'SELECT ID_nomer_obor FROM nomer_obor WHERE nomer="'.$_POST['nomer_obor'].'" AND ID_tip_razgruzki=2'));
+
+    setcookie("date_vorota",$_POST['select_date_vorota']);
+    setcookie("nomer_vorot", $ID_nomer_vor['ID_nomer_obor']);
+
+    if( $_POST['select_date_vorota'] != NULL) {
+        $issetdate = mysqli_fetch_array(mysqli_query($connect, 'SELECT ID_razgruzka FROM razgruzka WHERE data="' . $_POST['select_date_vorota'] . '" AND ID_nomer_obor= "' . $ID_nomer_vor['ID_nomer_obor'] . '"'));
+        if ($issetdate['ID_razgruzka'] === NULL) {
+            $i = 1;
+            $time = date('H:i:s', strtotime('9:00:00'));
+            while ($i < 10) {
+                mysqli_query($connect, 'INSERT INTO `razgruzka` (`data`, `vremya_nachala`, `ID_nomer_obor`) VALUES ( "' . $_POST['select_date_vorota'] . '", "' . $time . '", "' . $ID_nomer_vor['ID_nomer_obor'] . '");');
+                $time = date('H:i:s', strtotime("+1 hour", strtotime($time)));
+
+
+                $i++;
+            }
+        }
+    }
 }
 
 if (isset($_POST['vorota'])) {
+    mysqli_query($connect, 'UPDATE razgruzka SET ID_user="'.$ID_user['ID_user'].'" WHERE ID_razgruzka = "'.$_POST['accessible-radio_vor'].'";');
 
-    $message = $_POST['message'];
-    $mailText = "Заявка на услугу
-    
-Номер д/а: $dogovor
-Заявитель: $tip $familiya $imya $otchestvo
-Контактный тел.: $phone
-Дополнительный тел.: $rezervphone
 
-Услуга: Бронь ворот
-Комментарий: $message";
 }
 
-mail($to, $subject, $mailText, $headers);
-header("Location: zagruzka.php");
+if (isset($_POST['delete_bron'])) {
+    mysqli_query($connect, 'UPDATE razgruzka SET ID_user = NULL WHERE ID_razgruzka = "'.$_POST['delete_bron'].'"');
+
+}
+
+
+mysqli_close($connect);
+header('Location: zagruzka.php');
 ?>

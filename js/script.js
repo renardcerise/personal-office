@@ -1,5 +1,16 @@
 $(document).ready(function() {
 
+$(".new_arend_ooo").hide();
+
+
+    $(".select_date_vorota_zan").on("change", function() {
+        $(".vorota_block").show();
+        $(".lift_block").hide();
+
+
+
+    });
+
 
 
     /*скрываем элементы услуг*/
@@ -25,6 +36,12 @@ $(document).ready(function() {
     $('[type="date"].date_today').prop('min', function() {
         return new Date().toJSON().split('T')[0];
     });
+
+    /* календарь с минимальной датой - сегодня*/
+    $('[type="date"].date_okonch').prop('min', $(".date_nach").val());
+
+
+
 
     /*верхнее меню услуг*/
     $("#razgruzka_pogruzka").on("click", function() {
@@ -75,8 +92,25 @@ $(document).ready(function() {
         $("#stroitelstvo").addClass("active_li");
     });
 
-    $("#select_type").change(function () {
+    /*показ данных о лифтах или воротах*/
+    $("#menu_lift").on("click", function() {
+        $(".vorota_block").hide();
+        $(".lift_block").show();
 
+        $("#menu_vorot").removeClass("active_li");
+        $("#menu_lift").addClass("active_li");
+    });
+
+    $("#menu_vorot").on("click", function() {
+        $(".vorota_block").show();
+        $(".lift_block").hide();
+
+        $("#menu_lift").removeClass("active_li");
+        $("#menu_vorot").addClass("active_li");
+    });
+
+    /*показ данных в зависимости от типа арендаторов*/
+    $("#select_type").change(function () {
 
         if($("#select_type option:selected").text() == "ООО"){
             $("#ooo").show();
@@ -93,14 +127,6 @@ $(document).ready(function() {
     });
 
 
-    $(".date_nach").on("change", function() {
-        $(".date_okonch").attr({
-            "min": $(".date_nach")         // values (or variables) here
-        });
-    });
-
-
-
         $("#popChart").hide();
 
     $('#otchet').on('click', function() {
@@ -108,12 +134,29 @@ $(document).ready(function() {
     });
 
 
+    /*меню лифтов*/
+
+    var wrapper = $('.menu_bron');
+    wrapper.find('li:first').addClass('active_li');
+
+    $('.menu_bron').on('click', function() {
+
+
+    });
 
 
 
 
 
-   // $("#popChart").hide();
+
+
+
+
+
+
+
+
+
 
 });
 

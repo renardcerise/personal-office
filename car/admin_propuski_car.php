@@ -71,7 +71,7 @@ if (!isset($_SESSION['login'])) {
                     <li><a href="../profile/admin_polzovateli.php">Пользователи</a></li>
                     <div class="cabinet_menu_text">Заявки</div>
                     <li><a href="admin_propuski_car.php">Пропуски на машину</a></li>
-<!--                    <li><a href="../bron/admin_zagruzka.php">Резерв под загрузку</a></li>-->
+                    <li><a href="../bron/admin_zagruzka.php">Резерв под загрузку</a></li>
                     <li><a href="../uslugi/admin_zayavki.php">Заявки на услуги</a></li>
                     <li><a href="../personal/admin_propusk_personal.php">Пропуски на персонал</a></li>
                     <li class="exit"><a href="../exit.php">Выход</a></li>
@@ -87,8 +87,6 @@ if (!isset($_SESSION['login'])) {
                 $connect = mysqli_connect('localhost', 'db', '12019991', 'cabinet') or die('<span class="text_text">Ошибка подключения к базе</span>'); //Подключение к базе данных
 
                 $arendatorinfo= mysqli_query($connect, 'SELECT  ID_user, nomer_dogovora, familiya, imya, otchestvo, nazvanie_organizacii, naimenovanie FROM user, type_arendatora WHERE user.ID_type_arendatora = type_arendatora.ID_type_arendatora GROUP BY ID_user');
-
-
 
 
                 while ($row = mysqli_fetch_assoc($arendatorinfo)) {
